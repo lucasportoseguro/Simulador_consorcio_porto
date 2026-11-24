@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Consórcio Porto Seguro | Lucas Fortes</title>
+<style>
+  *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:#0f1e3a;color:#1a1a1a;padding-bottom:env(safe-area-inset-bottom)}
+  .hero{position:relative;min-height:340px;display:flex;align-items:flex-end;background-size:cover;background-position:center;background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80');transition:background-image .5s ease}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(0,20,60,.92) 0%, rgba(0,20,60,.45) 45%, rgba(0,20,60,.05) 100%)}
+  .hero.auto{background-image:url('https://images.unsplash.com/photo-1502877338535-766e1452684a?w=900&q=80')}
+  .hero-content{position:relative;z-index:2;padding:22px 20px 28px;width:100%;color:#fff}
+  .badge{display:inline-block;background:#ffcc00;color:#111;font-size:11px;font-weight:800;letter-spacing:.5px;padding:6px 12px;border-radius:999px}
+  .hero h1{font-size:28px;line-height:1.15;margin:14px 0 6px;font-weight:800}
+  .hero p{margin:0;font-size:14px;opacity:.9;line-height:1.4}
+  .pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);padding:7px 12px;border-radius:999px;font-size:12px;font-weight:600;margin-top:14px}
+  .verified{display:inline-flex;align-items:center;gap:5px;background:#fff;color:#111;border-radius:999px;padding:5px 10px 5px 5px;font-size:12px;font-weight:800;margin-top:12px}
+  .verified .check{width:20px;height:20px;background:#0095F6;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}
+  .verified-blue{color:#0095F6;font-weight:800}
+  .check-inline{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:#0095F6;border-radius:50%;color:#fff;font-size:11px;font-weight:900;vertical-align:middle;margin-left:4px}
+  .wrap{max-width:520px;margin:0 auto;padding:0 14px}
+  .card{background:#fff;border-radius:22px;padding:20px;margin-top:-18px;position:relative;z-index:3;box-shadow:0 12px 30px rgba(0,0,0,.18)}
+  .step{display:none}.step.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  h2{font-size:20px;margin:4px 0 4px}
+  .sub{color:#6b7280;font-size:14px;margin:0 0 16px;line-height:1.4}
+  .progress{display:flex;gap:6px;margin-bottom:16px}
+  .progress i{flex:1;height:5px;border-radius:99px;background:#e5e7eb;display:block}
+  .progress i.on{background:#003da5}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .opt{border:2px solid #e5e7eb;border-radius:18px;padding:16px 10px;text-align:center;cursor:pointer;background:#f9fafb;transition:.2s}
+  .opt:active{transform:scale(.97)}
+  .opt .emoji{font-size:32px;display:block;margin-bottom:8px}
+  .opt b{font-size:16px}
+  .opt span{display:block;color:#6b7280;font-size:12px;margin-top:3px;line-height:1.3}
+  .opt.selected{border-color:#003da5;background:#eef4ff;box-shadow:0 4px 14px rgba(0,61,165,.12)}
+  .value-box{background:linear-gradient(135deg,#003da5,#0056d6);border-radius:16px;padding:18px;text-align:center;margin:14px 0;color:#fff}
+  .value-box small{opacity:.8;letter-spacing:1px;font-size:11px;font-weight:700}
+  .value-box b{font-size:34px;display:block;margin-top:2px}
+  input[type=range]{width:100%;accent-color:#003da5;height:6px;margin:14px 0 6px}
+  .labels{display:flex;justify-content:space-between;font-size:12px;color:#6b7280}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{border:1px solid #e5e7eb;border-radius:999px;padding:9px 14px;font-size:13px;cursor:pointer;background:#fff;font-weight:600}
+  .chip.selected{background:#003da5;color:#fff;border-color:#003da5}
+  /* PRAZO AUTOMÓVEL */
+  .prazo-label{font-size:14px;font-weight:700;margin:18px 0 8px}
+  .prazo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .prazo-opt{border:2px solid #e5e7eb;border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;background:#f9fafb;font-size:14px;font-weight:800}
+  .prazo-opt span{display:block;font-weight:400;color:#6b7280;font-size:11px;margin-top:2px}
+  .prazo-opt.selected{border-color:#003da5;background:#eef4ff;box-shadow:0 4px 12px rgba(0,61,165,.12)}
+  .prazo-opt:nth-child(4),.prazo-opt:nth-child(5){grid-column:span 1}
+  .prazo-wrap{display:none}
+  .prazo-wrap.show{display:block}
+  .result{background:#f0f6ff;border:1px solid #dbeafe;border-radius:16px;padding:16px;margin:14px 0}
+  .result div{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #dbeafe;font-size:14px}
+  .result div:last-child{border:0}
+  .result div b{color:#003da5;font-size:15px}
+  .result .destaque{background:#003da5;color:#fff;border-radius:10px;padding:12px;margin:-4px -4px 4px}
+  .result .destaque b{color:#ffcc00;font-size:18px}
+  input[type=text],input[type=tel]{width:100%;padding:15px;border:1.5px solid #e5e7eb;border-radius:14px;margin-bottom:10px;font-size:15px;background:#f9fafb}
+  input:focus{outline:none;border-color:#003da5;background:#fff}
+  button{width:100%;padding:16px;border:0;border-radius:14px;background:#00a550;color:#fff;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 6px 16px rgba(0,165,80,.3)}
+  button:active{transform:scale(.98)}
+  button.secondary{background:#f3f4f6;color:#374151;box-shadow:none;margin-top:8px;font-weight:600}
+  button.outline{background:#fff;color:#003da5;border:2px solid #003da5;box-shadow:none;margin-top:8px}
+  .seller{display:flex;align-items:center;gap:12px;background:#f9fafb;border:1px solid #f0f0f0;border-radius:16px;padding:12px;margin-top:14px}
+  .avatar{width:52px;height:52px;min-width:52px;border-radius:50%;background:#003da5;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;position:relative;overflow:visible}
+  .avatar::after{content:"✓";position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;background:#0095F6;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:900}
+  .seller b{display:block;font-size:15px}
+  .seller span{font-size:12px;color:#6b7280;line-height:1.4}
+  .seller a{color:#00a550;font-weight:700;text-decoration:none}
+  .foot{text-align:center;color:rgba(255,255,255,.7);font-size:12px;padding:18px 20px 28px;line-height:1.6}
+  .foot b{color:#fff}
+  .insta-link{display:inline-block;color:rgba(255,255,255,.85);text-decoration:none;font-size:12px;font-weight:600;margin-top:6px;opacity:.9}
+  .insta-link:hover{opacity:1;text-decoration:underline}
+  .vaga-box{background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:12px;font-size:13px;line-height:1.5;color:#7c2d12;margin:12px 0}
+  .vaga-box b{color:#ea580c}
+  .porto-label{font-size:14px;font-weight:700;margin:14px 0 8px}
+  .porto-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  .porto-opt{border:2px solid #e5e7eb;border-radius:14px;padding:13px 8px;text-align:center;cursor:pointer;background:#f9fafb;font-size:14px;font-weight:700}
+  .porto-opt span{display:block;font-weight:400;color:#6b7280;font-size:11px;margin-top:2px}
+  .porto-opt.selected{border-color:#003da5;background:#eef4ff;box-shadow:0 4px 12px rgba(0,61,165,.12)}
+  .porto-opt.selected.sim{border-color:#00a550;background:#f0fdf4}
+  .promo-box{display:none;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:14px;padding:14px;margin:-4px 0 14px;animation:fade .25s ease}
+  .promo-box.show{display:block}
+  .promo-check{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+  .promo-check input{width:20px;height:20px;min-width:20px;accent-color:#00a550;margin-top:2px;cursor:pointer}
+  .promo-check b{font-size:14px;color:#14532d;line-height:1.3;display:block}
+  .promo-check span{font-size:12px;color:#4d7c5f;line-height:1.4;display:block;margin-top:2px}
+</style>
+</head>
+<body>
+
+<div class="hero" id="hero">
+  <div class="hero-content">
+    <span class="badge">PORTO SEGURO CONSÓRCIO</span>
+    <h1 id="heroTitle">Sua casa nova<br>sem pagar juros.</h1>
+    <p id="heroSub">Simule em 30 segundos e fale direto com Lucas Fortes.</p>
+    <div><span class="verified"><span class="check">✓</span> Lucas Fortes • Perfil Verificado</span></div>
+    <span class="pill" id="heroPill">🏠 Imóvel • 200 meses • Sem juros</span>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="card">
+  <div class="step active" id="step1">
+    <div class="progress"><i class="on"></i><i></i><i></i></div>
+    <h2>O que você busca hoje?</h2>
+    <p class="sub">Escolha uma opção, o fundo muda pra você visualizar seu sonho.</p>
+    <div class="grid">
+      <div class="opt selected" onclick="selectTipo('Imóvel',this)"><span class="emoji">🏠</span><b>Imóvel</b><span>Casa, apartamento<br>terreno</span></div>
+      <div class="opt" onclick="selectTipo('Automóvel',this)"><span class="emoji">🚗</span><b>Automóvel</b><span>Carro, moto<br>utilitário</span></div>
+    </div>
+    <br><button onclick="next(2)">Continuar →</button>
+  </div>
+
+  <div class="step" id="step2">
+    <div class="progress"><i class="on"></i><i class="on"></i><i></i></div>
+    <h2>Qual valor você busca?</h2>
+    <p class="sub" id="tipoLabel">Ajuste a barra até o valor do seu imóvel.</p>
+
+    <!-- SELEÇÃO DE PRAZO - SÓ AUTOMÓVEL -->
+    <div class="prazo-wrap" id="prazoAutoBox">
+      <div class="prazo-label">Em quantos meses você quer pagar?</div>
+      <div class="prazo-grid">
+        <div class="prazo-opt" onclick="selectPrazoAuto(50,this)">50 meses<span>R$ 30 - 50 mil</span></div>
+        <div class="prazo-opt" onclick="selectPrazoAuto(72,this)">72 meses<span>R$ 34 - 65 mil</span></div>
+        <div class="prazo-opt selected" onclick="selectPrazoAuto(80,this)">80 meses<span>R$ 62,5 - 125 mil</span></div>
+        <div class="prazo-opt" onclick="selectPrazoAuto(90,this)">90 meses<span>R$ 125 - 200 mil</span></div>
+        <div class="prazo-opt" onclick="selectPrazoAuto(120,this)">120 meses<span>R$ 180 - 360 mil</span></div>
+      </div>
+    </div>
+
+    <div class="value-box"><small>VALOR DO CRÉDITO</small><b id="valorTxt">R$ 200.000</b></div>
+    <input type="range" id="valorRange" min="50000" max="800000" step="10000" value="200000" oninput="updateValor(this.value)">
+    <div class="labels"><span id="minLabel">R$ 50 mil</span><span id="maxLabel">R$ 800 mil</span></div>
+    <div class="chips" id="chips"></div>
+    <br><button onclick="next(3)">Ver minha parcela →</button>
+    <button class="secondary" onclick="next(1)">← Voltar</button>
+    <button class="outline" onclick="restart()">↺ Voltar e fazer outra simulação</button>
+  </div>
+
+  <div class="step" id="step3">
+    <div class="progress"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+    <h2>Sua simulação ✨</h2>
+    <p class="sub" id="resumoTipo">Consórcio de Imóvel - R$ 200.000</p>
+    <div class="result">
+      <div><span>Crédito</span><b id="rCredito">R$ 200.000</b></div>
+      <div><span>Prazo</span><b id="rPrazo">200 meses</b></div>
+      <div id="rTaxaRow"><span>Taxa mensal</span><b id="rTaxaMensal">0,125% a.m.</b></div>
+      <div class="destaque"><span>Parcela estimada*</span><b id="rParcela">R$ 1.250,00 / mês</b></div>
+      <div><span>Sem juros</span><b>✔️ Sem juros</b></div>
+    </div>
+
+    <div class="vaga-box">⚠️ <b>Vagas limitadas por grupo.</b><br>Preencha abaixo para verificar se ainda tem vaga disponível para o seu valor.</div>
+
+    <input type="text" id="nome" placeholder="Seu nome">
+    <input type="tel" id="whats" placeholder="Seu WhatsApp (DDD + número)">
+
+    <div class="porto-label">Você já é cliente Porto?</div>
+    <div class="porto-grid">
+      <div class="porto-opt sim" id="portoSim" onclick="selectPorto('Sim',this)">✅ Sim, sou cliente<span>Já tenho Porto</span></div>
+      <div class="porto-opt" id="portoNao" onclick="selectPorto('Não',this)">❌ Não sou cliente<span>Quero conhecer</span></div>
+    </div>
+
+    <div class="promo-box" id="promoBox">
+      <label class="promo-check">
+        <input type="checkbox" id="checkPromo">
+        <div>
+          <b>🎁 Verificar se tenho condição promocional</b>
+          <span>Quero que o Lucas verifique se tenho alguma condição especial por já ser cliente Porto. (Opcional)</span>
+        </div>
+      </label>
+    </div>
+
+    <button onclick="enviar()">Verificar disponibilidade da vaga 🔍</button>
+
+    <button class="secondary" onclick="next(2)">← Alterar valor</button>
+    <button class="outline" onclick="restart()">↺ Voltar e fazer outra simulação</button>
+
+    <div class="seller">
+      <div class="avatar">LF</div>
+      <div><b>Lucas Fortes <span class="check-inline">✓</span> <span class="verified-blue">Verificado</span></b><span>Especialista Consórcio Porto Seguro<br><a href="https://wa.me/5512997229171">(12) 99722-9171</a></span></div>
+    </div>
+  </div>
+
+  <div class="step" id="step4">
+    <h2>Verificando sua vaga... 🔍</h2>
+    <p class="sub" id="msgVaga">Lucas Fortes vai verificar agora se ainda tem vaga disponível para o seu valor e te chamar no WhatsApp.</p>
+    <div class="vaga-box">✅ <b>Seu pedido foi enviado!</b><br>Fique de olho no WhatsApp, a resposta vem em poucos minutos em horário comercial.</div>
+    <button onclick="falarWhats()">Falar com Lucas no WhatsApp 📲</button>
+    <button class="secondary" onclick="restart()">↺ Voltar e fazer outra simulação</button>
+    <button class="outline" onclick="next(2)">← Alterar valor e simular de novo</button>
+  </div>
+</div>
+</div>
+
+<p class="foot"><b>Lucas Fortes ✓ Verificado</b> - Consórcio Porto Seguro<br>(12) 99722-9171 • São José dos Campos - SP<br><span style="color:#7dd3fc;font-weight:700">✔ Perfil Verificado • Atendimento Oficial Porto Seguro</span><br><a class="insta-link" href="https://www.instagram.com/lucasfortes.porto" target="_blank">Instagram • @lucasfortes.porto</a></p>
+
+<script>
+let tipo = 'Imóvel';
+let valor = 200000;
+let clientePorto = '';
+let nomeAtual = '';
+let whatsAtual = '';
+let prazoAuto = 80;
+
+// CONFIGURAÇÃO AUTOMÓVEL - PRAZO / TAXA / LIMITE CRÉDITO
+const configAuto = {
+  50:  { taxa: 0.20, min: 30000,  max: 50000,  padrao: 40000,  chips: [30000,40000,50000] },
+  72:  { taxa: 0.20, min: 34000,  max: 65000,  padrao: 50000,  chips: [34000,50000,65000] },
+  80:  { taxa: 0.18, min: 62500,  max: 125000, padrao: 80000,  chips: [62500,80000,100000,125000] },
+  90:  { taxa: 0.17, min: 125000, max: 200000, padrao: 150000, chips: [125000,150000,200000] },
+  120: { taxa: 0.16, min: 180000, max: 360000, padrao: 250000, chips: [180000,250000,360000] }
+};
+
+function taxaImovel(v){
+  if(v <= 140000) return 0.27;
+  if(v <= 280000) return 0.25;
+  if(v <= 560000) return 0.23;
+  return 0.215;
+}
+function taxaAuto(v){ return configAuto[prazoAuto].taxa; }
+function getTaxa(){ return tipo === 'Imóvel' ? taxaImovel(valor) : taxaAuto(valor); }
+function getPrazo(){ return tipo === 'Imóvel' ? 200 : prazoAuto; }
+function getParcela(){ return Math.round((valor * (1 + getTaxa())) / getPrazo() * 100) / 100; }
+function getTaxaMensal(){ return getTaxa() / getPrazo() * 100; }
+
+function updateHero(){
+  const hero = document.getElementById('hero');
+  const title = document.getElementById('heroTitle');
+  const sub = document.getElementById('heroSub');
+  const pill = document.getElementById('heroPill');
+  if(tipo === 'Imóvel'){
+    hero.classList.remove('auto');
+    title.innerHTML = 'Sua casa nova<br>sem pagar juros.';
+    sub.innerText = 'Simule em 30 segundos e fale direto com Lucas Fortes.';
+    pill.innerText = '🏠 Imóvel • 200 meses • Sem juros';
+  } else {
+    hero.classList.add('auto');
+    title.innerHTML = 'Seu carro novo<br>sem pagar juros.';
+    sub.innerText = 'Simule em 30 segundos e saia de carro novo.';
+    pill.innerText = '🚗 Automóvel • ' + prazoAuto + ' meses • Sem juros';
+  }
+}
+
+function selectPrazoAuto(prazo, el){
+  prazoAuto = prazo;
+  document.querySelectorAll('.prazo-opt').forEach(o=>o.classList.remove('selected'));
+  if(el) el.classList.add('selected');
+  const cfg = configAuto[prazo];
+  const range = document.getElementById('valorRange');
+  range.min = cfg.min; range.max = cfg.max; range.value = cfg.padrao; valor = cfg.padrao;
+  document.getElementById('minLabel').innerText = 'R$ ' + cfg.min.toLocaleString('pt-BR');
+  document.getElementById('maxLabel').innerText = 'R$ ' + cfg.max.toLocaleString('pt-BR');
+  document.getElementById('tipoLabel').innerText = 'Ajuste a barra até o valor do seu automóvel - ' + prazo + ' meses.';
+  renderChips(cfg.chips);
+  updateValor(valor);
+  updateHero();
+}
+
+function selectTipo(t, el){
+  tipo = t;
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  updateHero();
+  const range = document.getElementById('valorRange');
+  const prazoBox = document.getElementById('prazoAutoBox');
+  if(t==='Imóvel'){
+    prazoBox.classList.remove('show');
+    range.min=50000; range.max=800000; range.value=200000; valor=200000;
+    document.getElementById('minLabel').innerText='R$ 50 mil';
+    document.getElementById('maxLabel').innerText='R$ 800 mil';
+    document.getElementById('tipoLabel').innerText='Ajuste a barra até o valor do seu imóvel.';
+    renderChips([100000,140000,200000,350000,500000]);
+  } else {
+    prazoBox.classList.add('show');
+    // Mantém o prazo já selecionado (padrão 80)
+    selectPrazoAuto(prazoAuto, document.querySelector('.prazo-opt.selected'));
+    document.getElementById('tipoLabel').innerText='Ajuste a barra até o valor do seu automóvel - ' + prazoAuto + ' meses.';
+  }
+  updateValor(valor);
+}
+
+function selectPorto(resposta, el){
+  clientePorto = resposta;
+  document.querySelectorAll('.porto-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  const promoBox = document.getElementById('promoBox');
+  if(resposta === 'Sim'){
+    promoBox.classList.add('show');
+  } else {
+    promoBox.classList.remove('show');
+    document.getElementById('checkPromo').checked = false;
+  }
+}
+
+function renderChips(list){
+  document.getElementById('chips').innerHTML = list.map(v=>`<div class="chip" onclick="setValor(${v},this)">R$ ${v.toLocaleString('pt-BR')}</div>`).join('');
+}
+function setValor(v, el){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));
+  if(el) el.classList.add('selected');
+  document.getElementById('valorRange').value=v;
+  updateValor(v);
+}
+function updateValor(v){
+  valor = parseInt(v);
+  document.getElementById('valorTxt').innerText = 'R$ ' + valor.toLocaleString('pt-BR');
+}
+function next(n){
+  if(n===3){
+    let prazo = getPrazo();
+    let parcela = getParcela();
+    let taxaMensal = getTaxaMensal();
+    document.getElementById('resumoTipo').innerText = `Consórcio de ${tipo} - R$ ${valor.toLocaleString('pt-BR')}`;
+    document.getElementById('rCredito').innerText = 'R$ ' + valor.toLocaleString('pt-BR');
+    document.getElementById('rParcela').innerText = 'R$ ' + parcela.toLocaleString('pt-BR',{minimumFractionDigits:2}) + ' / mês';
+    document.getElementById('rPrazo').innerText = prazo + ' meses';
+    // AUTOMÓVEL NÃO EXIBE TAXA
+    const taxaRow = document.getElementById('rTaxaRow');
+    if(tipo === 'Automóvel'){
+      taxaRow.style.display = 'none';
+    } else {
+      taxaRow.style.display = 'flex';
+      document.getElementById('rTaxaMensal').innerText = taxaMensal.toLocaleString('pt-BR',{minimumFractionDigits:3, maximumFractionDigits:3}) + '% a.m.';
+    }
+  }
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restart(){
+  document.getElementById('nome').value = '';
+  document.getElementById('whats').value = '';
+  clientePorto = '';
+  document.querySelectorAll('.porto-opt').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('promoBox').classList.remove('show');
+  document.getElementById('checkPromo').checked = false;
+  tipo = 'Imóvel';
+  prazoAuto = 80;
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+  document.querySelector('.opt').classList.add('selected');
+  selectTipo('Imóvel', document.querySelector('.opt'));
+  next(1);
+}
+function enviar(){
+  const nome = document.getElementById('nome').value.trim();
+  const whats = document.getElementById('whats').value.trim();
+  if(!nome || !whats){ alert('Preencha nome e WhatsApp para verificar a vaga'); return; }
+  if(!clientePorto){ alert('Selecione se você já é cliente Porto ou não'); return; }
+  nomeAtual = nome; whatsAtual = whats;
+  let parcela = getParcela();
+  let taxaMensal = getTaxaMensal();
+  const querPromo = document.getElementById('checkPromo').checked;
+  const textoPromo = querPromo ? 'SIM - Verificar condição promocional' : 'Não marcou';
+  document.getElementById('msgVaga').innerText = `${nome}, vou verificar agora se ainda tem vaga disponível para Consórcio de ${tipo} de R$ ${valor.toLocaleString('pt-BR')} - ${getPrazo()}x de R$ ${parcela.toLocaleString('pt-BR',{minimumFractionDigits:2})}.`;
+  // MENSAGEM SEM TAXA PARA AUTOMÓVEL
+  let msg;
+  if(tipo === 'Automóvel'){
+    msg = `Olá Lucas! Sou ${nome}. Quero VERIFICAR DISPONIBILIDADE DA VAGA para Consórcio Porto Seguro de ${tipo} no valor de R$ ${valor.toLocaleString('pt-BR')}. Parcela ${getPrazo()}x de R$ ${parcela.toLocaleString('pt-BR',{minimumFractionDigits:2})} | Já é cliente Porto? ${clientePorto} | Verificar condição promocional? ${textoPromo} | Meu WhatsApp: ${whats}`;
+  } else {
+    msg = `Olá Lucas! Sou ${nome}. Quero VERIFICAR DISPONIBILIDADE DA VAGA para Consórcio Porto Seguro de ${tipo} no valor de R$ ${valor.toLocaleString('pt-BR')}. Parcela ${getPrazo()}x de R$ ${parcela.toLocaleString('pt-BR',{minimumFractionDigits:2})} - Taxa mensal ${taxaMensal.toLocaleString('pt-BR',{minimumFractionDigits:3})}% a.m. | Já é cliente Porto? ${clientePorto} | Verificar condição promocional? ${textoPromo} | Meu WhatsApp: ${whats}`;
+  }
+  window.open(`https://wa.me/5512997229171?text=${encodeURIComponent(msg)}`, '_blank');
+  next(4);
+}
+function falarWhats(){
+  const msg = nomeAtual ? `Olá Lucas! Sou ${nomeAtual}, acabei de verificar a vaga de ${tipo} de R$ ${valor.toLocaleString('pt-BR')}.` : `Olá Lucas! Vim pelo simulador de Consórcio Porto Seguro.`;
+  window.open(`https://wa.me/5512997229171?text=${encodeURIComponent(msg)}`, '_blank');
+}
+renderChips([100000,140000,200000,350000,500000]);
+updateHero();
+updateValor(200000);
+</script>
+</body>
+</html>
